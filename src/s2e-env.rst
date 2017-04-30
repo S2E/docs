@@ -46,7 +46,7 @@ analysis targets, known as "projects".
 
 To create a new S2E environment in ``/home/user/s2e``, run:
 
- .. code-block:: console
+.. code-block:: console
 
     s2e init /home/user/s2e
 
@@ -57,7 +57,8 @@ installation step (e.g. if you have already installed the dependencies) use the 
 Tip:
 Docker uses the default CIDR 172.17.0.1/24 for the docker0 bridge. If this conflicts with your network environment the docker guests will not be able to communicate without side networks. Create/edit ``/etc/docker/daemon.json`` and change the bridge IP (bip) to a non-conflicting value. For example:
 
- .. code-block:: console
+.. code-block:: console
+
     {
         "bip":"10.42.0.1/24"
     }
