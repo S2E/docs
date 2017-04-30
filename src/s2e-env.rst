@@ -46,13 +46,21 @@ analysis targets, known as "projects".
 
 To create a new S2E environment in ``/home/user/s2e``, run:
 
-.. code-block:: console
+ .. code-block:: console
 
     s2e init /home/user/s2e
 
 This will fetch the required source code, install S2E's dependencies (via apt) and create the directory structure
 described `here <https://github.com/s2e/s2e-env/blob/master/README.md>`_. If you want to skip the dependency
 installation step (e.g. if you have already installed the dependencies) use the ``--skip-dependencies`` flag.
+
+Tip:
+Docker uses the default CDIR 172.17.0.1/24 for the docker0 bridge. If this conflicts with your network environment the docker guests will not be able to communicate without side networks. Create/edit ``/etc/docker/daemon.json`` and change the bridge IP (bip) to a non-conflicting value. For example:
+
+ .. code-block:: console
+    {
+        "bip":"10.42.0.1/24"
+    }
 
 Building S2E
 ~~~~~~~~~~~~
