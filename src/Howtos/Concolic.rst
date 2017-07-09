@@ -24,7 +24,6 @@ first path that corresponds to the initial concrete values terminates, the engin
 new set of concrete values, and proceed similarly until this second path terminates. Of course, custom path selection
 plugins can optimize the selection for different needs (high code coverage, bug finding, etc.).
 
-
 Executing Programs in Concolic Mode
 ===================================
 
@@ -37,20 +36,11 @@ internal cache, and overwrites the memory with symbolic values. The cache maps t
 concrete values and allows the substitution of symbolic inputs with the concrete ones during expression evaluation
 (e.g., at fork points).
 
-
 Using the ``s2e.so`` plugin
 -----------------------------
 
 The `s2e.so <s2e.so.rst>`_ library enables symbolic execution without modifying the program's source code. This library
-also supports concolic execution with the ``--concolic`` switch, that can be added right before the concrete program
-arguments. The following example invokes the ``tr`` Unix utility via the ``tr ab ab ab`` command. The library
-automatically assigns symbolic arguments to all arguments while keeping the concrete ``ab`` values.
-
-
-::
-
-   LD_PRELOAD=/home/s2e/s2e.so tr --concolic ab ab ab
-
+also supports concolic execution with the ``S2E_SYM_ARGS`` environment variable.
 
 FAQ
 ===
@@ -63,10 +53,10 @@ FAQ
 
   Probably not. Concolic execution will use the initial concrete values to get through cryptographic routines without
   getting lost in the large state space. However, it is very likely to get stuck in the constraint solver when checking
-  the feasibility of a a branch condition (and computing new sets of concrete inputs).
+  the feasibility of a branch condition (and computing new sets of concrete inputs).
 
 * *I implemented custom plugins to aggressively prune paths because symbolic execution was getting stuck.
    Are these plugins still useful?*
 
-  Yes, reducing state space by discarding uninteresting paths is always useful. Concolic execution does not solve the path
-  explosion problem by itself. It merely helps getting to deep parts of the program faster.
+  Yes, reducing state space by discarding uninteresting paths is always useful. Concolic execution does not solve the
+  path explosion problem by itself. It merely helps getting to deep parts of the program faster.
