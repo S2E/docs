@@ -1,13 +1,15 @@
 ==========================
-How to Write an S2E plugin
+How to write an S2E plugin
 ==========================
 
-In this tutorial, we show step-by-step how to write a complete plugin that uses most of the features of the S2E plugin
-infrastructure. We take the example of a plugin that counts how many times a specific instruction has been executed.
-Users of that plugin can specify the instruction to watch in the S2E configuration file. We will also show how to build
-the plugin so that it can communicate with other plugins and expose reusable functionality.
+In this tutorial, we show step-by-step how to write a complete plugin that uses most of the features of the S2E C++
+plugin infrastructure. We take the example of a plugin that counts how many times a specific instruction has been
+executed. Users of that plugin can specify the instruction to watch in the S2E configuration file. We will also show
+how to build the plugin so that it can communicate with other plugins and expose reusable functionality.
 
-Starting with an Empty Plugin
+There is an equivalent tutorial for writing Python plugins, available `here <WritingPythonPlugins.rst>`_.
+
+Starting with an empty plugin
 =============================
 
 The first thing to do is to name the plugin and create boilerplate code. Let us name the plugin ``InstructionTracker``.
@@ -72,7 +74,7 @@ Finally, we need to compile the plugin with the rest of S2E. For this, add the f
 
     s2e/Plugins/InstructionTracker.cpp
 
-Reading Configuration Parameters
+Reading configuration parameters
 ================================
 
 We would like to let the user specify which instruction to monitor. For this, we create a configuration variable that
@@ -121,7 +123,7 @@ In our case, we do it during the initialization phase.
 Do not forget to add ``uint64_t m_address;`` as a private members of class ``InstructionTracker`` in
 ``InstructionTracker.h``.
 
-Instrumenting Instructions
+Instrumenting instructions
 ==========================
 
 To instrument an instruction, an S2E plugin registers to the ``onTranslateInstructionStart`` core event. There are
@@ -140,7 +142,7 @@ declaration.
         m_address = (uint64_t) s2e()->getConfig()->getInt(getConfigKey() + ".addressToTrack");
 
         // This indicates that our plugin is interested in monitoring instruction translation.
-        // For this, the plugin registers a callback with the onTranslateInstruction signal.
+        // For this, the plugin registers a callback with the onTranslateInstructionStart signal
         s2e()->getCorePlugin()->onTranslateInstructionStart.connect(
             sigc::mem_fun(*this, &InstructionTracker::onTranslateInstruction));
     }
@@ -164,7 +166,7 @@ declaration.
         // Plugins can also call the s2e() method to use the S2E API
     }
 
-Counting Instructions
+Counting instructions
 =====================
 
 We would like to count how many times that particular instruction is executed. There are two options:
@@ -227,7 +229,7 @@ Plugin code can refer to this state using the ``DECLARE_PLUGINSTATE`` macro:
         plgState->increment();
     }
 
-Exporting Events
+Exporting events
 ================
 
 All S2E plugins can define custom events. Other plugins can in turn connect to them and also export their own events.
