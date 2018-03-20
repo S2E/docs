@@ -5,12 +5,9 @@ Symbolic Execution of Linux Binaries
 .. contents::
 
 In this tutorial, we will show how to symbolically (or concolically) execute *existing* Linux programs, *without*
-modifying their source code. In the `Testing a Simple Program <../TestingMinimalProgram.rst>`_ tutorial, we
-instrumented the source code with S2E instructions to inject symbolic values. This tutorial shows how to do this
-directly from the program's command line.
-
-To do so, we use the ``s2e.so`` shared library and ``LD_PRELOAD``. This library intercepts the call to the ``main``
-function and inserts user-configured symbolic arguments.
+modifying their source code. To do so, we use the ``s2e.so`` shared library and ``LD_PRELOAD``. This library intercepts
+the call to the ``main`` function and inserts user-configured symbolic arguments. Following this we will look at
+symbolically executing `arbitrary programs <ManualTesting.rst>`__ by modifying their source code.
 
 Obtaining and compiling ``s2e.so``
 ----------------------------------
@@ -49,7 +46,7 @@ Using ``s2e.so``
 The ``s2e.so`` library must be preloaded with your binary using ``LD_PRELOAD``. ``s2e.so`` intercepts the program's
 entry point invocation, checks environment variables for the desired configuration and configures symbolic execution.
 
-For example, the following example invokes ``echo`` from GNU Coreutils making arguments `arg1` and `arg2` symbolic.
+For example, the following example invokes ``echo`` from GNU Coreutils making arguments ``arg1`` and ``arg2`` symbolic.
 The execution path is terminated after ``echo`` returns::
 
     S2E_SYM_ARGS="1 2" LD_PRELOAD=/path/to/guest/s2e.so /bin/echo arg1 arg2
