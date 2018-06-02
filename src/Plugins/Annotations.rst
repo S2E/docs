@@ -162,6 +162,10 @@ An execution state object is a wrapper around the ``S2EExecutionState`` class. I
 **debug(message)**
     Writes the given message string to the debug log.
 
+**registerInstructionAnnotation(moduleId, annotationName, pc)**
+    Registers an instruction annotation in the module with filename ``moduleId`` at the address ``pc``.
+    Upon executing the instruction at ``pc`` the Lua function with name ``annotationName`` is called.
+
 ``LuaAnnotationState``
 ~~~~~~~~~~~~~~~~~~~~~~
 
