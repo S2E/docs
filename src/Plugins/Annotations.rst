@@ -33,8 +33,8 @@ A function annotation is defined as follows:
         annotations = {
             -- define an annotation called "my_annotation"
             my_annotation = {
-                -- The name of the module that we are interested in
-                module_name = "module_name",
+                -- The id of the module that we are interested in
+                module_id = "module_id",
                 -- The name of the Lua function to call when this annotation is triggered
                 name = "annotation_func",
                 -- The virtual address of a function in the given module that will trigger the annotation
@@ -61,7 +61,7 @@ The number of parameters that the Lua function takes varies depending on ``param
 takes the following parameters:
 
 1. A ``LuaS2EExecutionState`` object
-2. A ``LuaAnnotationState`` object
+2. A ``LuaFunctionAnnotationState`` object
 3. A boolean value indicating whether the function is being called (``is_call`` is ``true``) or is returning
    (``is_call`` is ``false``).
 
@@ -76,7 +76,7 @@ The ``LuaInstructionAnnotation`` plugin requires the following plugins to be ena
 * ``ProcessExecutionDetector``
 * ``ModuleMap``
 
-An instruction annotation is very similar to an instruction annotation. An example of an instruction annotation is
+An instruction annotation is very similar to a function annotation. An example of an instruction annotation is
 given below.
 
 .. code-block:: lua
@@ -124,7 +124,7 @@ The above Lua code defines the ``success`` and ``failure`` annotations. The ``su
 ``on_success`` function when the instruction at ``0x12345678`` is executed in the module ``ctf-challenge`` (and
 likewise for the ``failure`` annotation).
 
-Instruction annotations always take two arguments - a ``LuaS2EExecutionState`` object and a ``LuaAnnotationState``
+Instruction annotations always take two arguments - a ``LuaS2EExecutionState`` object and a ``LuaInstructionAnnotationState``
 object.
 
 Lua API
@@ -133,7 +133,8 @@ Lua API
 As stated previously, all annotations take the following two arguments:
 
 1. A ``LuaS2EExecutionState`` object, containing the current execution state; and
-2. A ``LuaAnnotationState`` object, containing the current state of the annotation.
+2. Either a ``LuaFunctionAnnotationState`` object or a ``LuaInstructionAnnotationState`` object, containing the current
+state of the annotation.
 
 ``LuaS2EExecutionState``
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -162,17 +163,27 @@ An execution state object is a wrapper around the ``S2EExecutionState`` class. I
 **debug(message)**
     Writes the given message string to the debug log.
 
-``LuaAnnotationState``
+``LuaInstructionAnnotationState``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-A ``LuaAnnotationState`` object provides the following methods:
+A ``LuaInstructionAnnotationState`` object provides the following methods:
 
-**setSkip(skip)**
-    Available in function annotations. Set ``skip`` to ``true`` to skip the function call.
+**skipInstruction(skip)**
+    Skips the instruction when ``skip`` is ``true`` (defaults to ``true``).
+
+**setExitCpuLoop()**
+    Sets the exit CPU loop to ``true``. This will cause the CPU to exit when the annotation returns.
+
+``LuaFunctionAnnotationState``
+~~~~~~~~~~~~~~~~~~~~~~
+
+A ``LuaFunctionAnnotationState`` object provides the following methods:
+
+**skipFunction(skip)**
+    Skips the function call when ``skip`` is ``true`` (defaults to ``true``).
 
 **isChild()**
-    Returns ``true`` if the annotation state is a forked child. This is used when ``fork = true`` in a function
-    annotation.
+    Returns ``true`` if the annotation state is a forked child. This is used when ``fork = true``.
 
 **setExitCpuLoop()**
     Sets the exit CPU loop to ``true``. This will cause the CPU to exit when the annotation returns.
