@@ -43,6 +43,10 @@ Tutorials
 
 
   6. `Customizing stock VM images <src/ImageInstallation.rst>`_
+
+     a. `Installing Ubuntu 14.04 guest image <src/UbuntuGuestImage.rst>`_
+
+
   7. `Moving files between the guest and host <src/MovingFiles.rst>`_
   8. `Communicating between the guest and S2E plugins <src/Plugins/BaseInstructions.rst>`_
   9. `Running S2E on multiple cores <src/Howtos/Parallel.rst>`_
