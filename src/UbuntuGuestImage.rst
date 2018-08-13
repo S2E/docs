@@ -2,7 +2,7 @@
 Creating Customized Ubuntu-14.04 Image
 ===========================================
 
-This tutorial will give you a step-by-step instruction on how to build a Ubuntu-14.04.5-amd64 guest image to run targeted programs that for some reason can only run on recent Linux distributions. The same steps should work also on Ubuntu 16.04 and Ubuntu 18.04 releases. 
+This tutorial will give you step-by-step instructions on how to build a Ubuntu-14.04.5-amd64 guest image to run targeted programs that for some reason can only run on recent Linux distributions. The same steps should work also on Ubuntu 16.04 and Ubuntu 18.04 releases. 
 
 .. warning::
     This tutorial includes some nasty hacks of the Makefile, but should work as is, if followed closely. For some steps, you need to have a GUI-enabled system, but after the image is ready, it will be portable, and can be used on any non-GUI server machines. 
